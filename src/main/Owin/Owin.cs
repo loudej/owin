@@ -3,6 +3,7 @@ using System.Collections.Generic;
 ﻿using System.IO;
 using System.Threading.Tasks;
 
+
 namespace Owin
 {
     using AppAction = Func< // Call
@@ -48,12 +49,6 @@ namespace Owin
         public Func<Stream, Task> Body;
     }
 
-    public interface IAppBuilder
-    {
-        IAppBuilder Use<TApp>(Func<TApp, TApp> middleware);
-        TApp Build<TApp>(Action<IAppBuilder> pipeline);
-
-        IAppBuilder AddAdapters<TApp1, TApp2>(Func<TApp1, TApp2> adapter1, Func<TApp2, TApp1> adapter2);
-        IDictionary<string, object> Properties { get; }
-    }
+    public delegate TApp MiddlewareDelegate<TApp>(TApp next);
+    public delegate TApp2 ConversionDelegate<in TApp1, out TApp2>(TApp1 next);
 }
